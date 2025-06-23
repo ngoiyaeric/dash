@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useTransition } from "react"
+import { useState, useTransition, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -12,8 +12,10 @@ import { useToast } from "@/hooks/use-toast"
 import { SearchDialog } from "@/components/search-dialog"
 import { useTheme } from "@/components/theme-provider"
 import { useAuth } from "@/components/auth/auth-provider"
-import { updateProfile, uploadAvatar } from "@/app/actions/profile-actions"
+import { updateProfile, uploadAvatar, getConnectedAccounts } from "@/app/actions/profile-actions"
 import { useRouter, useSearchParams } from "next/navigation"
+import { getSupabaseClient } from "@/lib/supabase"
+import type { Database } from "@/lib/database.types"
 import {
   Search,
   Activity,
@@ -52,6 +54,8 @@ const mockConnectedAccounts = [
   },
 ]
 
+type ConnectedAccount = Database["public"]["Tables"]["connected_accounts"]["Row"]
+
 export default function SettingsPage() {
   const searchParams = useSearchParams()
   const initialTab = searchParams.get("tab") || "profile"
@@ -59,12 +63,44 @@ export default function SettingsPage() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [isUploading, setIsUploading] = useState(false)
+  const [connectedAccounts, setConnectedAccounts] = useState<ConnectedAccount[]>(mockConnectedAccounts) // Initialize with mock for now
+  const [isLoadingAccounts, setIsLoadingAccounts] = useState(true)
   const { toast } = useToast()
   const { theme, setTheme } = useTheme()
-  const { user, signOut, loading } = useAuth()
+  const { user, signOut, loading: authLoading } = useAuth() // Renamed loading to authLoading
   const router = useRouter()
+  const supabase = getSupabaseClient()
 
-  if (loading) {
+  const displayName = user?.profile?.display_name || user?.email?.split("@")[0] || "Demo User"
+  const avatarUrl = user?.profile?.avatar_url
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      if (user) {
+        setIsLoadingAccounts(true)
+        const result = await getConnectedAccounts()
+        if (result.error) {
+          toast({
+            title: "Error fetching accounts",
+            description: result.error,
+            variant: "destructive",
+          })
+          setConnectedAccounts([]) // Set to empty or keep mock
+        } else {
+          setConnectedAccounts(result.accounts)
+        }
+        setIsLoadingAccounts(false)
+      } else {
+        // Handle case where user is not logged in, or set to empty if preferred
+        setConnectedAccounts(mockConnectedAccounts)
+        setIsLoadingAccounts(false);
+      }
+    }
+    fetchAccounts()
+  }, [user, toast])
+
+
+  if (authLoading) { // Use authLoading here
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
@@ -86,6 +122,14 @@ export default function SettingsPage() {
           title: "Success",
           description: result.message,
         })
+        // Optimistically update UI or refetch profile
+        if (user && supabase) { // supabase is not defined here, need to get it from useAuth or pass it
+            const { data: updatedProfile } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+            if (updatedProfile) {
+                // @ts-ignore
+                user.profile = updatedProfile;
+            }
+        }
       }
     })
   }
@@ -110,6 +154,11 @@ export default function SettingsPage() {
         title: "Success",
         description: result.message,
       })
+      // Optimistically update UI or refetch profile
+      if (user && result.avatarUrl && supabase) { // supabase is not defined here
+        // @ts-ignore
+        user.profile = { ...user.profile, avatar_url: result.avatarUrl };
+      }
     }
     setIsUploading(false)
   }
@@ -138,8 +187,6 @@ export default function SettingsPage() {
   const handleNavigation = (path: string) => {
     router.push(path)
   }
-
-  const displayName = user?.user_metadata?.display_name || user?.email?.split("@")[0] || "Demo User"
 
   return (
     <>
@@ -234,7 +281,7 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between pt-2">
               <div className="flex items-center gap-3">
                 <Avatar className="w-8 h-8">
-                  <AvatarImage src={user?.user_metadata?.avatar_url || "/placeholder.svg"} />
+                  <AvatarImage src={avatarUrl || "/placeholder.svg"} />
                   <AvatarFallback
                     className={`${
                       theme === "dark" ? "bg-blue-600/50 text-white" : "bg-blue-600/70 text-white"
@@ -351,7 +398,7 @@ export default function SettingsPage() {
                         className="w-16 h-16 cursor-pointer transition-all duration-200 hover:scale-105"
                         onClick={() => document.getElementById("avatar-upload")?.click()}
                       >
-                        <AvatarImage src={user?.user_metadata?.avatar_url || "/placeholder.svg"} />
+                        <AvatarImage src={avatarUrl || "/placeholder.svg"} />
                         <AvatarFallback
                           className={`text-lg ${
                             theme === "dark" ? "bg-blue-600/50 text-white" : "bg-blue-600/70 text-white"
@@ -465,32 +512,49 @@ export default function SettingsPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {mockConnectedAccounts.map((account) => (
-                      <div
-                        key={account.id}
-                        className={`flex items-center gap-3 p-3 border rounded-lg backdrop-blur-sm transition-all duration-200 hover:scale-[1.01] ${
-                          theme === "dark" ? "border-white/10 bg-black/10" : "border-black/10 bg-white/30"
-                        }`}
-                      >
-                        {account.provider === "x" ? (
-                          <div className="w-5 h-5 bg-white rounded-sm flex items-center justify-center">
-                            <span className="text-black text-xs font-bold">𝕏</span>
-                          </div>
-                        ) : (
-                          <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">G</span>
-                          </div>
-                        )}
-                        <div className="flex-1">
-                          <p className={`font-medium capitalize ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                            {account.provider === "x" ? "X (Twitter)" : account.provider}
-                          </p>
-                          <p className={`text-sm ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
-                            {account.provider_email}
-                          </p>
-                        </div>
+                    {isLoadingAccounts ? (
+                      <div className="flex items-center justify-center py-4">
+                        <Loader2 className="w-6 h-6 animate-spin text-slate-500" />
                       </div>
-                    ))}
+                    ) : connectedAccounts.length === 0 ? (
+                      <p className={`text-sm ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                        No connected accounts found.
+                      </p>
+                    ) : (
+                      connectedAccounts.map((account) => (
+                        <div
+                          key={account.id}
+                          className={`flex items-center gap-3 p-3 border rounded-lg backdrop-blur-sm transition-all duration-200 hover:scale-[1.01] ${
+                            theme === "dark" ? "border-white/10 bg-black/10" : "border-black/10 bg-white/30"
+                          }`}
+                        >
+                          {/* TODO: Add icons for different providers */}
+                          {account.provider.toLowerCase() === "x" || account.provider.toLowerCase() === "twitter" ? (
+                            <div className="w-5 h-5 bg-white rounded-sm flex items-center justify-center">
+                              <span className="text-black text-xs font-bold">𝕏</span>
+                            </div>
+                          ) : account.provider.toLowerCase() === "google" ? (
+                            <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">G</span>
+                            </div>
+                          ) : (
+                             <div className="w-5 h-5 bg-gray-500 rounded-full flex items-center justify-center">
+                               <span className="text-white text-xs font-bold">{account.provider.charAt(0).toUpperCase()}</span>
+                             </div>
+                          )}
+                          <div className="flex-1">
+                            <p className={`font-medium capitalize ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                              {/* Special handling for X (Twitter) name */}
+                              {account.provider.toLowerCase() === "x" ? "X (Twitter)" : account.provider}
+                            </p>
+                            <p className={`text-sm ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                              {account.provider_email || "No email provided"}
+                            </p>
+                          </div>
+                           {/* Optional: Add a disconnect button here */}
+                        </div>
+                      ))
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>

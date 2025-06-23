@@ -1,27 +1,50 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs"
+import { cookies } from "next/headers"
+import { Database } from "@/lib/database.types"
 
-// Mock functions for demo purposes - replace with your actual data source
 export async function updateProfile(formData: FormData) {
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  const supabase = createServerActionClient<Database>({ cookies })
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { error: "User not authenticated" }
+  }
 
   const displayName = formData.get("displayName") as string
 
-  if (!displayName || displayName.length > 32) {
+  if (!displayName || displayName.length === 0 || displayName.length > 32) {
     return { error: "Display name must be between 1 and 32 characters" }
   }
 
-  // Here you would update your actual data source
-  // For now, just return success
+  const { error } = await supabase
+    .from("profiles")
+    .update({ display_name: displayName, updated_at: new Date().toISOString() })
+    .eq("id", user.id)
+
+  if (error) {
+    console.error("Error updating profile:", error)
+    return { error: "Failed to update profile. " + error.message }
+  }
+
   revalidatePath("/settings")
-  return { success: true, message: "Profile updated successfully" }
+  revalidatePath("/dashboard") // Also revalidate dashboard if display name is shown there
+  return { message: "Profile updated successfully" }
 }
 
 export async function uploadAvatar(formData: FormData) {
-  // Simulate upload delay
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  const supabase = createServerActionClient<Database>({ cookies })
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { error: "User not authenticated" }
+  }
 
   const file = formData.get("avatar") as File
 
@@ -37,10 +60,64 @@ export async function uploadAvatar(formData: FormData) {
     return { error: "File must be an image" }
   }
 
-  // Here you would upload to your actual storage service
-  // For now, just return success
+  const fileExtension = file.name.split(".").pop()
+  const fileName = `${user.id}-${Date.now()}.${fileExtension}`
+  const filePath = `avatars/${fileName}` // Ensure 'avatars' bucket has public read access or signed URLs are used.
+
+  const { error: uploadError } = await supabase.storage.from("avatars").upload(filePath, file)
+
+  if (uploadError) {
+    console.error("Error uploading avatar:", uploadError)
+    return { error: "Failed to upload avatar. " + uploadError.message }
+  }
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("avatars").getPublicUrl(filePath)
+
+  if (!publicUrl) {
+    console.error("Error getting public URL for avatar")
+    return { error: "Failed to get avatar URL." }
+  }
+
+  const { error: dbError } = await supabase
+    .from("profiles")
+    .update({ avatar_url: publicUrl, updated_at: new Date().toISOString() })
+    .eq("id", user.id)
+
+  if (dbError) {
+    console.error("Error updating avatar URL in profile:", dbError)
+    // Attempt to delete the orphaned file from storage
+    await supabase.storage.from("avatars").remove([filePath])
+    return { error: "Failed to update profile with new avatar. " + dbError.message }
+  }
+
   revalidatePath("/settings")
-  return { success: true, message: "Avatar updated successfully" }
+  revalidatePath("/dashboard") // Also revalidate dashboard if avatar is shown there
+  return { message: "Avatar updated successfully", avatarUrl: publicUrl }
+}
+
+export async function getConnectedAccounts() {
+  const supabase = createServerActionClient<Database>({ cookies })
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { error: "User not authenticated", accounts: [] }
+  }
+
+  const { data, error } = await supabase
+    .from("connected_accounts")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: true })
+
+  if (error) {
+    console.error("Error fetching connected accounts:", error)
+    return { error: "Failed to fetch connected accounts. " + error.message, accounts: [] }
+  }
+  return { accounts: data || [] }
 }
 
 export async function updatePersonalization(data: { systemPrompt: string; notes: string }) {

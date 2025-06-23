@@ -48,7 +48,8 @@ export default function DashboardPage() {
     router.push(path)
   }
 
-  const displayName = user?.user_metadata?.display_name || user?.email?.split("@")[0] || "Demo User"
+  const displayName = user?.profile?.display_name || user?.email?.split("@")[0] || "Demo User"
+  const avatarUrl = user?.profile?.avatar_url
 
   if (loading) {
     return (
@@ -129,7 +130,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between pt-2">
               <div className="flex items-center gap-3">
                 <Avatar className="w-8 h-8">
-                  <AvatarImage src={user?.user_metadata?.avatar_url || "/placeholder.svg"} />
+                  <AvatarImage src={avatarUrl || "/placeholder.svg"} />
                   <AvatarFallback
                     className={`${
                       theme === "dark" ? "bg-blue-600/50 text-white" : "bg-blue-600/70 text-white"
