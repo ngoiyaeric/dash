@@ -50,6 +50,15 @@ export default function DashboardPage() {
 
   const displayName = user?.user_metadata?.display_name || user?.email?.split("@")[0] || "Demo User"
 
+  // Redirect to landing page if not authenticated (only when Supabase is configured)
+  if (!loading && !user) {
+    const landingUrl = process.env.NEXT_PUBLIC_LANDING_URL || 'http://localhost:3000'
+    if (typeof window !== 'undefined') {
+      window.location.href = landingUrl
+    }
+    return null
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center">
