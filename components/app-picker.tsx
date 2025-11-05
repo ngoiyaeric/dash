@@ -310,7 +310,7 @@ export function AppPicker() {
       <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
         <DialogContent
           className={`max-w-5xl max-h-[85vh] ${
-            theme === "dark" ? "bg-black/40" : "bg-white/40"
+            theme === "dark" ? "bg-black/40" : "bg-white/60"
           } backdrop-blur-xl border-white/10`}
         >
           <DialogHeader>
