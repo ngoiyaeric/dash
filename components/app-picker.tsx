@@ -225,13 +225,13 @@ export function AppPicker() {
     },
     {
       name: "Fluid",
-      description: "Advanced benchmark suite for multi-agent systems",
+      description: "Next-Generation Super-Intelligence Benchmarks",
       isClickable: false,
       comingSoon: true,
     },
     {
       name: "EVA",
-      description: "Environment-aware AI agents with contextual intelligence",
+      description: "Artificial General Intelligence",
       isClickable: false,
       comingSoon: true,
     },
@@ -310,7 +310,7 @@ export function AppPicker() {
       <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
         <DialogContent
           className={`max-w-5xl max-h-[85vh] ${
-            theme === "dark" ? "bg-black/40" : "bg-white/40"
+            theme === "dark" ? "bg-black/40" : "bg-white/60"
           } backdrop-blur-xl border-white/10`}
         >
           <DialogHeader>
@@ -322,7 +322,7 @@ export function AppPicker() {
           <Tabs defaultValue="upload" className="w-full">
             <TabsList
               className={`grid w-full grid-cols-2 ${
-                theme === "dark" ? "bg-black/20 border-white/10" : "bg-white/20 border-black/10"
+                theme === "dark" ? "bg-black/20 border-white/10" : "bg-white/60 border-black/10"
               } backdrop-blur-xl border`}
             >
               <TabsTrigger
@@ -365,7 +365,7 @@ export function AppPicker() {
                   className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-200 hover:scale-[1.01] ${
                     theme === "dark"
                       ? "border-white/20 bg-black/10 hover:bg-black/20"
-                      : "border-black/20 bg-white/20 hover:bg-white/30"
+                      : "border-black/20 bg-white/60 hover:bg-white/80"
                   } backdrop-blur-sm`}
                 >
                   <Upload
