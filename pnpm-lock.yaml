@@ -131,9 +131,6 @@ importers:
       framer-motion:
         specifier: latest
         version: 12.23.24(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      glassmorphic:
-        specifier: ^0.0.3
-        version: 0.0.3
       input-otp:
         specifier: 1.4.1
         version: 1.4.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1798,9 +1795,6 @@ packages:
   get-nonce@1.0.1:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
     engines: {node: '>=6'}
-
-  glassmorphic@0.0.3:
-    resolution: {integrity: sha512-sbobZNaKuyup+X450P1brVofyXvl7flXdPGj8UyjvXdT3YXNYTWm3idk/dTcK0YxzhY0igk9t8e1UITP/vNAAw==}
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -4107,8 +4101,6 @@ snapshots:
   function-bind@1.1.2: {}
 
   get-nonce@1.0.1: {}
-
-  glassmorphic@0.0.3: {}
 
   glob-parent@5.1.2:
     dependencies:
