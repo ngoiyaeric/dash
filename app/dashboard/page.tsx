@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { SearchDialog } from "@/components/search-dialog"
 import { useTheme } from "@/components/theme-provider"
 import dynamic from "next/dynamic"
+import { ClientOnly } from "@/components/client-only"
 
 const TrilliumFlow = dynamic(() => import("@/components/trillium-flow").then((mod) => mod.TrilliumFlow), {
   ssr: false,
@@ -291,7 +292,9 @@ export default function DashboardPage() {
 
             {/* App Picker with Enhanced Glass Effect */}
             <div className="transition-smooth">
-              <TrilliumFlow />
+              <ClientOnly>
+                <TrilliumFlow />
+              </ClientOnly>
             </div>
           </div>
         </div>
