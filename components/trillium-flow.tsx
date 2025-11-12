@@ -30,9 +30,11 @@ function AppPlaceholder({ position }: { position: [number, number, number] }) {
   )
 }
 
-export function TrilliumFlow() {
+// ✅ NEW: Separate component that renders INSIDE Canvas
+function RotatingGroup() {
   const groupRef = useRef<THREE.Group>(null!)
 
+  // ✅ Now useFrame is called inside Canvas context
   useFrame((state) => {
     if (groupRef.current) {
       // Gentle rotation
@@ -49,13 +51,20 @@ export function TrilliumFlow() {
   })
 
   return (
+    <group ref={groupRef}>
+      {apps.map((app, index) => (
+        <AppPlaceholder key={index} position={app.position} />
+      ))}
+    </group>
+  )
+}
+
+export function TrilliumFlow() {
+  // ✅ No more useFrame here - just render Canvas
+  return (
     <Canvas style={{ height: "500px" }} camera={{ position: [0, 0, 5] }}>
       <ambientLight intensity={0.2} />
-      <group ref={groupRef}>
-        {apps.map((app, index) => (
-          <AppPlaceholder key={index} position={app.position} />
-        ))}
-      </group>
+      <RotatingGroup />
       <Environment preset="sunset" />
       <OrbitControls
         enableZoom={true}
