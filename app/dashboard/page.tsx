@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { SearchDialog } from "@/components/search-dialog"
-import { AppPicker } from "@/components/app-picker"
+import { TrilliumFlow } from "@/components/trillium-flow"
 import { useTheme } from "@/components/theme-provider"
 import { useAuth } from "@/components/auth/auth-provider"
 import { useToast } from "@/hooks/use-toast"
@@ -287,7 +287,7 @@ export default function DashboardPage() {
 
             {/* App Picker with Enhanced Glass Effect */}
             <div className="transition-smooth">
-              <AppPicker />
+              <TrilliumFlow />
             </div>
           </div>
         </div>
