@@ -8,12 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { SearchDialog } from "@/components/search-dialog"
 import { useTheme } from "@/components/theme-provider"
-import dynamic from "next/dynamic"
 import { ClientOnly } from "@/components/client-only"
-
-const TrilliumFlow = dynamic(() => import("@/components/trillium-flow").then((mod) => mod.TrilliumFlow), {
-  ssr: false,
-})
+import { TrilliumFlow } from "@/components/trillium-flow"
 import { useAuth } from "@/components/auth/auth-provider"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
