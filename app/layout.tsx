@@ -13,8 +13,8 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "QueueCX Settings",
-  description: "User settings and profile management for QueueCX",
+  title: "planet computer Settings",
+  description: "User settings and profile management for planet computer",
     generator: 'v0.dev'
 }
 
@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${jetbrainsMono.variable}`}>
         <AuthProvider>
-          <ThemeProvider defaultTheme="dark" storageKey="queuecx-ui-theme">
+          <ThemeProvider defaultTheme="dark" storageKey="planet-computer-ui-theme">
             {children}
             <Toaster />
           </ThemeProvider>

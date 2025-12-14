@@ -168,10 +168,10 @@ export function Features({ id }: { id: string }) {
       <section className="py-20 md:py-24" id={id}>
         <div className="container">
           <h2 className="text-5xl md:text-6xl font-medium text-center tracking-tighter">
-            Discover the Power of QCX.
+            Discover the Power of planet computer.
           </h2>
           <p className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto text-center tracking-tight mt-5">
-            QCX offers a comprehensive suite of tools to help you understand and visualize data about our world.
+            planet computer offers a comprehensive suite of tools to help you understand and visualize data about our world.
           </p>
 
           <div className="mt-10 grid lg:grid-cols-3 gap-3">

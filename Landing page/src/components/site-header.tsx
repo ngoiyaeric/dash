@@ -73,7 +73,7 @@ export default function SiteHeader({ readsCount }: SiteHeaderProps) {
                                         <div className="border size-8 rounded-lg inline-flex items-center justify-center">
                                             <SiteLogo className="size-6 h-auto" />
                                         </div>
-                                        <p className="font-bold">QCX</p>
+                                        <p className="font-bold">planet computer</p>
                                     </div>
                                     <div className="mt-8 mb-4">
                                         <nav className="grid gap-4 items-center text-lg">

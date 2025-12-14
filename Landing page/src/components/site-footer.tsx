@@ -11,7 +11,7 @@ export default function SiteFooter() {
                         <div className={"border size-8 rounded-lg inline-flex items-center justify-center"}>
                             <SiteLogo className={"size-6 h-auto"}/>
                         </div>
-                        <p className={"font-medium"}>QCX</p>
+                        <p className={"font-medium"}>planet computer</p>
                     </section>
 
                     <Link href="https://tally.so/r/wADZ4o" className="text-sm text-muted-foreground hover:underline">
@@ -19,7 +19,7 @@ export default function SiteFooter() {
                     </Link>
 
                     <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
-                        ©️ 2024 QCX, All rights reserved. Built by <a
+                        ©️ 2024 planet computer, All rights reserved. Built by <a
                         href={"https://discord.gg/NqGY9EWjWj"}
                         target="_blank"
                         rel="noreferrer"

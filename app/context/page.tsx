@@ -156,8 +156,7 @@ export default function ContextPage() {
               {/* Organic floating shapes */}
               <div className="absolute top-20 right-20 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl animate-float-slow"></div>
               <div className="absolute bottom-40 left-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-float"></div>
-              <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-yellow-200/15 rounded-full blur-3xl animate-float"></div>
-            </div>
+          <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-yellow-200/15 rounded-full blur-3xl animate-float"></div>         </div>
           )}
         </div>
         {/* Sidebar */}
@@ -166,19 +165,19 @@ export default function ContextPage() {
             theme === "dark" ? "glass-sidebar" : "glass-sidebar-light"
           } flex flex-col relative z-10 transition-smooth shadow-2xl`}
         >
-          <div className={`p-4 border-b ${theme === "dark" ? "border-white/10" : "border-black/10"}`}>
+          <div className="p-4 border-b border-border">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 relative">
                 <Image
                   src="/logo.png"
-                  alt="QueueCX"
+                  alt="planet computer"
                   width={32}
                   height={32}
                   className={theme === "dark" ? "invert" : ""}
                 />
               </div>
-              <span className={`font-semibold text-lg ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                QueueCX
+              <span className="font-semibold text-lg text-foreground">
+                planet computer
               </span>
             </div>
           </div>
@@ -186,11 +185,7 @@ export default function ContextPage() {
           <nav className="flex-1 p-4 space-y-2">
             <Button
               variant="ghost"
-              className={`w-full justify-start gap-3 px-3 py-2 h-auto ${
-                theme === "dark"
-                  ? "text-slate-300 hover:bg-white/10 hover:text-white"
-                  : "text-slate-700 hover:bg-black/10 hover:text-slate-900"
-              } backdrop-blur-sm`}
+              className="w-full justify-start gap-3 px-3 py-2 h-auto text-muted-foreground hover:bg-secondary/50 hover:text-foreground backdrop-blur-sm"
               onClick={() => setSearchOpen(true)}
             >
               <Search className="w-4 h-4" />
@@ -201,41 +196,37 @@ export default function ContextPage() {
               <SidebarItem
                 icon={Activity}
                 label="My Activity"
-                theme={theme}
                 onClick={() => handleNavigation("/dashboard")}
               />
-              <SidebarItem icon={MessageSquare} label="Context" active nested theme={theme} onClick={() => {}} />
+              <SidebarItem icon={MessageSquare} label="Context" active nested onClick={() => {}} />
               <SidebarItem
                 icon={SettingsIcon}
                 label="Settings"
-                theme={theme}
                 onClick={() => handleNavigation("/settings")}
               />
             </div>
           </nav>
 
-          <div className={`p-4 border-t ${theme === "dark" ? "border-white/10" : "border-black/10"} space-y-2`}>
-            <SidebarItem icon={HelpCircle} label="Help Center" theme={theme} onClick={() => {}} />
-            <SidebarItem icon={Download} label="Download QueueCX" theme={theme} onClick={() => {}} />
+          <div className="p-4 border-t border-border space-y-2">
+            <SidebarItem icon={HelpCircle} label="Help Center" onClick={() => {}} />
+            <SidebarItem icon={Download} label="Download planet computer" onClick={() => {}} />
 
             <div className="flex items-center justify-between pt-2">
               <div className="flex items-center gap-3">
                 <Avatar className="w-8 h-8">
                   <AvatarImage src={user?.user_metadata?.avatar_url || "/placeholder.svg"} />
                   <AvatarFallback
-                    className={`${
-                      theme === "dark" ? "bg-blue-600/50 text-white" : "bg-blue-600/70 text-white"
-                    } backdrop-blur-sm`}
+                    className="bg-primary/80 text-primary-foreground backdrop-blur-sm"
                   >
                     {displayName.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                  <p className="text-sm font-medium text-foreground">
                     {displayName}
                   </p>
-                  <p className={`text-xs truncate ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
-                    {user?.email || "demo@queuecx.com"}
+                  <p className="text-xs truncate text-muted-foreground">
+                    {user?.email || "demo@planetcomputer.com"}
                   </p>
                 </div>
               </div>
@@ -244,11 +235,7 @@ export default function ContextPage() {
                   variant="ghost"
                   size="sm"
                   onClick={handleThemeToggle}
-                  className={`${
-                    theme === "dark"
-                      ? "text-slate-300 hover:text-white hover:bg-white/10"
-                      : "text-slate-700 hover:text-slate-900 hover:bg-black/10"
-                  }`}
+                  className="text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </Button>
@@ -256,11 +243,7 @@ export default function ContextPage() {
                   variant="ghost"
                   size="sm"
                   onClick={handleSignOut}
-                  className={`${
-                    theme === "dark"
-                      ? "text-slate-300 hover:text-white hover:bg-white/10"
-                      : "text-slate-700 hover:text-slate-900 hover:bg-black/10"
-                  }`}
+                  className="text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                 >
                   <LogOut className="w-4 h-4" />
                 </Button>
@@ -276,17 +259,15 @@ export default function ContextPage() {
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-4">
                 <div
-                  className={`p-3 rounded-2xl ${
-                    theme === "dark" ? "glass-effect text-emerald-400" : "glass-effect-light text-emerald-600"
-                  } transition-smooth shadow-lg`}
+                  className="p-3 rounded-2xl glass-effect-light dark:glass-effect text-primary transition-smooth shadow-lg"
                 >
                   <MessageSquare className="w-6 h-6" />
                 </div>
                 <div>
-                  <h1 className={`text-3xl font-bold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                  <h1 className="text-3xl font-bold text-foreground">
                     Context
                   </h1>
-                  <p className={`text-lg ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className="text-lg text-muted-foreground">
                     Personalize your AI assistant's behavior and responses
                   </p>
                 </div>
@@ -295,23 +276,21 @@ export default function ContextPage() {
 
             {/* Main Context Card */}
             <Card
-              className={`mb-8 ${
-                theme === "dark" ? "glass-effect" : "glass-effect-light"
-              } transition-smooth shadow-xl border-0`}
+              className="mb-8 glass-effect-light dark:glass-effect transition-smooth shadow-xl border-0"
             >
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className={`text-xl font-mono ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                    <CardTitle className="text-xl font-mono text-foreground">
                       System Prompt
                     </CardTitle>
-                    <CardDescription className={`font-mono ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                    <CardDescription className="font-mono text-muted-foreground">
                       Define how your AI assistant should behave and respond to your requests
                     </CardDescription>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className={`w-4 h-4 ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`} />
-                    <span className={`text-sm font-mono ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                    <Clock className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm font-mono text-muted-foreground">
                       {formatLastSaved()}
                     </span>
                   </div>
@@ -324,28 +303,18 @@ export default function ContextPage() {
                     value={systemPrompt}
                     onChange={(e) => setSystemPrompt(e.target.value)}
                     placeholder="Enter your personalization instructions here..."
-                    className={`min-h-[400px] font-mono text-base leading-relaxed p-6 rounded-xl resize-none border-2 transition-all duration-200 ${
-                      theme === "dark"
-                        ? "bg-black/10 border-white/10 text-white placeholder:text-slate-400 focus:border-blue-500/50 focus:bg-black/20"
-                        : "bg-white/60 border-black/10 text-slate-900 placeholder:text-slate-600 focus:border-green-500/50 focus:bg-white/80"
-                    } backdrop-blur-sm`}
+                    className="min-h-[400px] font-mono text-base leading-relaxed p-6 rounded-xl resize-none border-2 transition-all duration-200 bg-background/50 border-border placeholder:text-muted-foreground focus:border-primary/50 focus:bg-background/70 backdrop-blur-sm"
                     maxLength={2000}
                   />
                   <div
-                    className={`flex items-center justify-between text-sm font-mono ${
-                      theme === "dark" ? "text-slate-400" : "text-slate-600"
-                    }`}
+                    className="flex items-center justify-between text-sm font-mono text-muted-foreground"
                   >
                     <span>{systemPrompt.length}/2000 characters</span>
                     <div className="flex items-center gap-4">
                       <Button
                         onClick={handleSave}
                         disabled={isPending}
-                        className={`font-mono ${
-                          theme === "dark"
-                            ? "bg-emerald-600/80 hover:bg-emerald-600 text-white"
-                            : "bg-emerald-600/80 hover:bg-emerald-600 text-white"
-                        } transition-fluid hover:scale-105 shadow-lg`}
+                        className="font-mono bg-primary hover:bg-primary/90 text-primary-foreground transition-fluid hover:scale-105 shadow-lg"
                       >
                         {isPending ? (
                           <>
@@ -367,13 +336,11 @@ export default function ContextPage() {
 
             {/* Tips Card */}
             <Card
-              className={`mb-8 ${
-                theme === "dark" ? "glass-effect" : "glass-effect-light"
-              } transition-smooth shadow-xl border-0`}
+              className="mb-8 glass-effect-light dark:glass-effect transition-smooth shadow-xl border-0"
             >
               <CardHeader>
                 <CardTitle
-                  className={`flex items-center gap-2 font-mono ${theme === "dark" ? "text-white" : "text-slate-900"}`}
+                  className="flex items-center gap-2 font-mono text-foreground"
                 >
                   <Sparkles className="w-5 h-5" />
                   Personalization Tips
@@ -382,11 +349,11 @@ export default function ContextPage() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
-                    <h3 className={`font-mono font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                    <h3 className="font-mono font-semibold text-foreground">
                       Communication Style
                     </h3>
                     <ul
-                      className={`space-y-2 text-sm font-mono ${theme === "dark" ? "text-slate-300" : "text-slate-700"}`}
+                      className="space-y-2 text-sm font-mono text-muted-foreground"
                     >
                       <li>• Specify your preferred tone (formal, casual, friendly)</li>
                       <li>• Define response length preferences</li>
@@ -394,11 +361,11 @@ export default function ContextPage() {
                     </ul>
                   </div>
                   <div className="space-y-3">
-                    <h3 className={`font-mono font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                    <h3 className="font-mono font-semibold text-foreground">
                       Work Context
                     </h3>
                     <ul
-                      className={`space-y-2 text-sm font-mono ${theme === "dark" ? "text-slate-300" : "text-slate-700"}`}
+                      className="space-y-2 text-sm font-mono text-muted-foreground"
                     >
                       <li>• Include your role and industry</li>
                       <li>• Mention specific tools you use</li>
@@ -410,7 +377,7 @@ export default function ContextPage() {
                       Response Format
                     </h3>
                     <ul
-                      className={`space-y-2 text-sm font-mono ${theme === "dark" ? "text-slate-300" : "text-slate-700"}`}
+                      className="space-y-2 text-sm font-mono text-muted-foreground"
                     >
                       <li>• Request specific output formats</li>
                       <li>• Define structure preferences</li>
@@ -422,7 +389,7 @@ export default function ContextPage() {
                       Constraints
                     </h3>
                     <ul
-                      className={`space-y-2 text-sm font-mono ${theme === "dark" ? "text-slate-300" : "text-slate-700"}`}
+                      className="space-y-2 text-sm font-mono text-muted-foreground"
                     >
                       <li>• Add any topic limitations</li>
                       <li>• Specify accuracy requirements</li>
@@ -451,11 +418,7 @@ export default function ContextPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Button
                     variant="outline"
-                    className={`h-auto p-4 text-left justify-start ${
-                      theme === "dark"
-                        ? "border-white/20 hover:bg-white/10 text-slate-300 hover:text-white"
-                        : "border-black/20 hover:bg-black/10 text-slate-700 hover:text-slate-900"
-                    } backdrop-blur-sm`}
+                    className="h-auto p-4 text-left justify-start border border-border hover:bg-secondary/50 text-muted-foreground hover:text-foreground backdrop-blur-sm"
                     onClick={() =>
                       setSystemPrompt(
                         "You are a professional software development assistant. Provide clear, well-documented code examples with explanations. Focus on best practices, security, and maintainability. Ask clarifying questions about requirements and constraints.",
@@ -469,11 +432,7 @@ export default function ContextPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`h-auto p-4 text-left justify-start ${
-                      theme === "dark"
-                        ? "border-white/20 hover:bg-white/10 text-slate-300 hover:text-white"
-                        : "border-black/20 hover:bg-black/10 text-slate-700 hover:text-slate-900"
-                    } backdrop-blur-sm`}
+                    className="h-auto p-4 text-left justify-start border border-border hover:bg-secondary/50 text-muted-foreground hover:text-foreground backdrop-blur-sm"
                     onClick={() =>
                       setSystemPrompt(
                         "You are a creative writing assistant with expertise in storytelling, content creation, and marketing copy. Provide engaging, original content with strong narrative structure. Focus on audience engagement and brand voice consistency.",
@@ -487,11 +446,7 @@ export default function ContextPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`h-auto p-4 text-left justify-start ${
-                      theme === "dark"
-                        ? "border-white/20 hover:bg-white/10 text-slate-300 hover:text-white"
-                        : "border-black/20 hover:bg-black/10 text-slate-700 hover:text-slate-900"
-                    } backdrop-blur-sm`}
+                    className="h-auto p-4 text-left justify-start border border-border hover:bg-secondary/50 text-muted-foreground hover:text-foreground backdrop-blur-sm"
                     onClick={() =>
                       setSystemPrompt(
                         "You are a business strategy consultant with expertise in data analysis, market research, and strategic planning. Provide actionable insights backed by data. Focus on ROI, scalability, and competitive advantage.",
@@ -505,11 +460,7 @@ export default function ContextPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`h-auto p-4 text-left justify-start ${
-                      theme === "dark"
-                        ? "border-white/20 hover:bg-white/10 text-slate-300 hover:text-white"
-                        : "border-black/20 hover:bg-black/10 text-slate-700 hover:text-slate-900"
-                    } backdrop-blur-sm`}
+                    className="h-auto p-4 text-left justify-start border border-border hover:bg-secondary/50 text-muted-foreground hover:text-foreground backdrop-blur-sm"
                     onClick={() =>
                       setSystemPrompt(
                         "You are an educational tutor specializing in clear explanations and step-by-step learning. Break down complex topics into digestible parts. Use examples, analogies, and interactive elements to enhance understanding.",
@@ -538,11 +489,10 @@ interface SidebarItemProps {
   label: string
   active?: boolean
   nested?: boolean
-  theme: string
   onClick: () => void
 }
 
-function SidebarItem({ icon: Icon, label, active = false, nested = false, theme, onClick }: SidebarItemProps) {
+function SidebarItem({ icon: Icon, label, active = false, nested = false, onClick }: SidebarItemProps) {
   return (
     <div
       onClick={onClick}
@@ -550,12 +500,8 @@ function SidebarItem({ icon: Icon, label, active = false, nested = false, theme,
       flex items-center gap-3 px-3 py-2 rounded-lg text-sm cursor-pointer transition-all duration-200
       ${
         active
-          ? theme === "dark"
-            ? "bg-blue-600/30 text-white font-medium backdrop-blur-sm"
-            : "bg-green-600/20 text-slate-900 font-medium backdrop-blur-sm"
-          : theme === "dark"
-            ? "text-slate-300 hover:bg-white/10 hover:text-white hover:backdrop-blur-sm"
-            : "text-slate-700 hover:bg-black/10 hover:text-slate-900 hover:backdrop-blur-sm"
+          ? "bg-primary/20 text-primary font-medium backdrop-blur-sm"
+          : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground hover:backdrop-blur-sm"
       }
       ${nested ? "ml-4" : ""}
     `}

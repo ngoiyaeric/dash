@@ -34,7 +34,7 @@ export default function ReadsPage() {
         <div className="container py-20 md:py-24 relative">
           <details className="mb-8">
             <summary className="text-5xl tracking-tighter text-center font-medium cursor-pointer border border-white/20 p-4 rounded-lg hover:bg-white/5">
-              QueueCX
+              planet computer
             </summary>
             <div className="text-center text-sm text-white/50 mt-2">
               May 02, 2025
@@ -59,7 +59,7 @@ export default function ReadsPage() {
 
           <details className="mb-8">
             <summary className="text-5xl tracking-tighter text-center font-medium cursor-pointer border border-white/20 p-4 rounded-lg hover:bg-white/5">
-              Environment Aware
+              planet scale environment aware multi-agents. Artificial General Intelligence
             </summary>
             <div className="text-center text-sm text-white/50 mt-2">
               May 02, 2025
@@ -112,7 +112,7 @@ export default function ReadsPage() {
 
           <details className="mb-8">
             <summary className="text-5xl tracking-tighter text-center font-medium cursor-pointer border border-white/20 p-4 rounded-lg hover:bg-white/5">
-              Fluidity Index
+              Next-Generation Super-Intelligence benchmarks
             </summary>
             <div className="text-center text-sm text-white/50 mt-2">💦</div>
             <div className="text-center text-lg md:text-xl text-white/70 tracking-tight px-4 mt-5">
