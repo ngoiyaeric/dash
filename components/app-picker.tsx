@@ -63,11 +63,11 @@ function AppCard({
 
   const getAppIcon = (appName: string) => {
     switch (appName) {
-      case "QCX":
+      case "Planet Computer":
         return <Zap className="w-6 h-6" />
-      case "Fluid":
+      case "Next-Generation Super-Intelligence benchmarks":
         return <Activity className="w-6 h-6" />
-      case "EVA":
+      case "Planet Scale Environment Aware Multi-Agents":
         return <Brain className="w-6 h-6" />
       default:
         return <FileText className="w-6 h-6" />
@@ -205,18 +205,18 @@ export function AppPicker() {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false)
   const [selectedApp, setSelectedApp] = useState<string>("")
   const [uploadedFiles, setUploadedFiles] = useState<Record<string, UploadedFile[]>>({
-    QCX: [
+    "Planet Computer": [
       { id: "1", name: "user_preferences.json", size: "2.4 KB", uploadDate: "2024-01-15", type: "JSON" },
       { id: "2", name: "activity_log.csv", size: "156 KB", uploadDate: "2024-01-14", type: "CSV" },
     ],
-    Fluid: [],
-    EVA: [],
+    "Next-Generation Super-Intelligence benchmarks": [],
+    "Planet Scale Environment Aware Multi-Agents": [],
   })
 
   const apps = [
     {
-      name: "QCX",
-      description: "Multi-agent intelligence platform for exploration and automation",
+      name: "Planet Computer",
+      description: "Planet Computer: Your multi-agent intelligence platform for exploration and automation",
       isClickable: true,
       href: "https://planet.queue.cx",
       uptime: "99.9%",
@@ -224,14 +224,14 @@ export function AppPicker() {
       tier: "Standard",
     },
     {
-      name: "Fluid",
-      description: "Advanced benchmark suite for multi-agent systems",
+      name: "Next-Generation Super-Intelligence benchmarks",
+      description: "Next-Generation Super-Intelligence benchmarks",
       isClickable: false,
       comingSoon: true,
     },
     {
-      name: "EVA",
-      description: "Environment-aware AI agents with contextual intelligence",
+      name: "Planet Scale Environment Aware Multi-Agents",
+      description: "Planet Scale Environment Aware Multi-Agents\nArtificial General Intelligence",
       isClickable: false,
       comingSoon: true,
     },
