@@ -10,10 +10,10 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Lab",
-  description: "QCX - multi-agent intelligence platform for exploration and automation.",
+  description: "Planet Computer - multi-agent intelligence platform for exploration and automation.",
   openGraph: {
     title: "Lab",
-    description: "QCX - multi-agent intelligence platform for exploration and automation.",
+    description: "Planet Computer - multi-agent intelligence platform for exploration and automation.",
     images: "/opengraph-image.png", // Relative path to the image
     url: "https://www.queue.cx", // Updated to queue.cx
     type: "website",
@@ -26,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta property="og:title" content="QCX" />
+        <meta property="og:title" content="Planet Computer" />
         <meta
           property="og:description"
-          content="QCX - multi-agent intelligence platform for exploration and automation."
+          content="Planet Computer - multi-agent intelligence platform for exploration and automation."
         />
         <meta
           property="og:image"
